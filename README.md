@@ -1,2 +1,2 @@
 # NODE
-Interesting learning projects about nodeJs
+Interesting learning projects about NodeJs
