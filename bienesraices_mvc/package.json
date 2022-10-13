@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "css": "postcss public/css/tailwind.css -o public/css/app.css --watch"
   },
   "keywords": [
     "MVC",
@@ -18,9 +19,14 @@
   "author": "FEMO",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "autoprefixer": "^10.4.12",
+    "nodemon": "^2.0.20",
+    "postcss": "^8.4.18",
+    "postcss-cli": "^10.0.0",
+    "tailwindcss": "^3.1.8"
   }
 }
