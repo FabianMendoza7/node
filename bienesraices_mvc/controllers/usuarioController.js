@@ -22,8 +22,34 @@ const registrar = async (req, res) => {
     let resultado = validationResult(req);
 
     // Verificar que no haya errores.
+    if(!resultado.isEmpty()){
+        // Errores.
+        return res.render('auth/registro',{
+            pagina: 'Crear Cuenta',
+            errores: resultado.array(),
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        });
+    }
     
-    res.json(resultado.array());
+    //res.json(resultado.array());
+
+    // Verificar que el usuario no esté duplicado.
+    const {nombre, email, password} = req.body;
+    const existeUsuario = await Usuario.findOne({ where: {email}})
+
+    if(existeUsuario){
+        return res.render('auth/registro',{
+            pagina: 'Crear Cuenta',
+            errores: [{msg: 'El usuario ya está registrado'}],
+            usuario: {
+                nombre,
+                email
+            }
+        });        
+    }
 
     const usuario = await Usuario.create(req.body);
     res.json(usuario);
