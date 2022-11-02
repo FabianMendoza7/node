@@ -23,7 +23,7 @@ const emailRegistro = async (datos) => {
 
             <p>
                 Tu cuenta está lista, solo debes confirmarla en el siguiente enlace:
-                <a href="">Confirmar Cuenta</a>
+                <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/confirmar/${token}">Confirmar Cuenta</a>
             </p>
 
             <p>Si no creaste esta cuenta, puedes ignorar el mensaje</p>
