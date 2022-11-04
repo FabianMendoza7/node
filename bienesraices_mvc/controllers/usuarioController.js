@@ -9,9 +9,11 @@ const formularioLogin = (req, res) => {
     });
 }
 
-const formularioRegistro = (req, res) => {
+const formularioRegistro = (req, res) => {  
+
     res.render('auth/registro',{
-        pagina: 'Crear Cuenta'
+        pagina: 'Crear Cuenta',
+        csrfToken: req.csrfToken()
     });
 }
 
@@ -28,6 +30,7 @@ const registrar = async (req, res) => {
         // Errores.
         return res.render('auth/registro',{
             pagina: 'Crear Cuenta',
+            csrfToken: req.csrfToken(),
             errores: resultado.array(),
             usuario: {
                 nombre: req.body.nombre,
@@ -45,6 +48,7 @@ const registrar = async (req, res) => {
     if(existeUsuario){
         return res.render('auth/registro',{
             pagina: 'Crear Cuenta',
+            csrfToken: req.csrfToken(),
             errores: [{msg: 'El usuario ya está registrado'}],
             usuario: {
                 nombre,
@@ -71,7 +75,7 @@ const registrar = async (req, res) => {
     // Mostrar mensaje de confirmación.
     res.render('templates/mensaje', {
         pagina: 'Página Creada Correctamente',
-        mensaje: 'Hemos Enviado un Email de Confirmación, presiona en el enlace'
+        mensaje: 'Hemos Enviado un Email de Confirmación, presiona en el enlace del correo'
     })
 }
 
@@ -91,7 +95,14 @@ const confirmar = async (req, res) => {
     }
 
     // Confirmar la cuenta.
+    usuario.token = null;
+    usuario.confirmado = true;
+    await usuario.save();
 
+    res.render('auth/confirmar-cuenta', {
+        pagina: 'Cuenta Confirmada',
+        mensaje: 'La cuenta se confirmó correctamente'
+    })    
 }
 
 const formularioOlvidePassword = (req, res) => {
