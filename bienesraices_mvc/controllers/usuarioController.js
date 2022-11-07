@@ -107,8 +107,40 @@ const confirmar = async (req, res) => {
 
 const formularioOlvidePassword = (req, res) => {
     res.render('auth/olvide-password',{
-        pagina: 'Recupera tu Acceso'
+        pagina: 'Recupera tu Acceso',
+        csrfToken: req.csrfToken(),
     });
+}
+
+const resetPassword = async (req, res) => {
+    // Validación.
+    await check('email').isEmail().withMessage('El email no es válido').run(req);
+    let resultado = validationResult(req);
+
+    // Verificar que no haya errores.
+    if(!resultado.isEmpty()){
+        // Errores.
+        return res.render('auth/olvide-password',{
+            pagina: 'Recupera tu Acceso',
+            csrfToken: req.csrfToken(),
+            errores: resultado.array(),
+        });
+    }
+
+    // Buscar al usuario.
+    const { email } = req.body;
+    const usuario = await Usuario.findOne({ where: {email}})
+
+    if(!usuario){
+        return res.render('auth/olvide-password',{
+            pagina: 'Recupera tu Acceso',
+            csrfToken: req.csrfToken(),
+            errores: [{ msg: 'El email no pertenece a ningún usuario' }],
+        });        
+    }
+
+    // Generar el token y enviar el email.
+    
 }
 
 export {
@@ -116,5 +148,6 @@ export {
     formularioRegistro,
     registrar,
     confirmar,
-    formularioOlvidePassword
+    formularioOlvidePassword,
+    resetPassword
 }
