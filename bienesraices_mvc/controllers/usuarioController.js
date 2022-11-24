@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import Usuario from "../models/Usuario.js";
-import { generarId } from '../helpers/tokens.js';
+import { generarJWT, generarId } from '../helpers/tokens.js';
 import { emailRegistro, emailOlvidePassword } from '../helpers/emails.js';
 
 const formularioLogin = (req, res) => {
@@ -23,7 +23,43 @@ const autenticar = async (req, res) => {
             csrfToken: req.csrfToken(),
             errores: resultado.array()
         });
+    }
+
+    const { email, password } = req.body;
+
+    // Comprobar si el usuario existe.
+    const usuario = await Usuario.findOne({where: {email}})
+
+    if(!usuario){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'El usuario no existe'}]
+        });        
+    }
+
+    // Comprobar si el usuario está confirmado.
+    if(!usuario.confirmado){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'Tu cuenta no ha sido confirmada'}]
+        });        
+    }
+
+    // Revisar el password.
+    if(!usuario.verificarPassword(password)){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'El password es incorrecto'}]
+        });        
     }    
+
+    // Autenticar el usuario.
+    const token = generarJWT({id: usuario.id, nombre: usuario.nombre})
+
+    console.log(token)
 }
 
 const formularioRegistro = (req, res) => {  
