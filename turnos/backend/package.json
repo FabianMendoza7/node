@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Proyecto Api Rest para el Manejo de Turnos",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Fabián Mendoza",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "sequelize": "^6.26.0",
+    "sequelize-msnodesqlv8": "^0.2.6-beta.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
