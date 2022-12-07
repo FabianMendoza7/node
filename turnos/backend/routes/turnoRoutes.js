@@ -3,7 +3,7 @@ import { consultar, crear }  from "../controllers/turnoController.js"
 
 const router = express.Router()
 
-// Obtención de turnos.
+// Consulta de turnos.
 router.get("/", consultar)
 
 // Creación de turnos.
