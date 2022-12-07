@@ -1,18 +1,25 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Layout from './layouts/Layout'
-import ListaTurnos from './paginas/ListaTurnos'
+import { useState } from 'react'
+import Header from './components/Header'
+import ListaTurnos from './components/ListaTurnos'
+import Formulario from './components/Formulario'
 
 function App() {
+  const [turnos, setTurnos] = useState([])
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<ListaTurnos crear={true} />} />
-          <Route path="consultar" element={<ListaTurnos crear={false} />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="container mx-auto mt-20">
+      <Header />
+
+      <div className="mt-12 md:flex">
+        <Formulario 
+          turnos={turnos}
+          setTurnos={setTurnos}
+        />
+        <ListaTurnos
+          turnos={turnos}
+        />
+      </div>
+    </div>
   )
 }
 

@@ -21,7 +21,7 @@ const corsOptions = {
             
         } else {
             // No está permitido su request.
-            callback(new Error("Error de CORS"))
+            callback(new Error(`CORS no permite la solicitud ${origin}`))
         }
     },
 }
