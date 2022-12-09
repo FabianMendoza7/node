@@ -1,25 +1,30 @@
 import Turno from './Turno'
+import Spinner from './Spinner'
 
-const ListaTurnos = ({turnos}) => {
+const ListaTurnos = ({turnos, cargando}) => {
 
   return (
     <div className="w-full lg:w-1/2 md:h-screen mx-auto">
+      <div>
+        {cargando && <Spinner />}
+      </div>
+
       {
         turnos && turnos.length ? (     
           
-            <table class="w-full text-sm text-left text-sky-500 dark:text-sky-400 rounded-sm">
-              <thead class="text-sky-700 bg-sky-50 dark:bg-sky-700 dark:text-white">
+            <table className="w-full text-sm text-left text-gray-900 dark:text-gray-900 rounded-sm">
+              <thead className="text-sky-700 bg-sky-50 dark:bg-sky-700 dark:text-white">
                 <tr>
-                  <th scope="col" class="py-3 px-6">
+                  <th scope="col" className="py-3 px-6">
                       Fecha
                   </th>
-                  <th scope="col" class="py-3 px-6">
+                  <th scope="col" className="py-3 px-6">
                       Hora Inicio
                   </th> 
-                  <th scope="col" class="py-3 px-6">
+                  <th scope="col" className="py-3 px-6">
                       Hora Fin
                   </th> 
-                  <th scope="col" class="py-3 px-6">
+                  <th scope="col" className="py-3 px-6">
                       Estado
                   </th>                                  
                 </tr>
