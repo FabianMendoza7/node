@@ -30,7 +30,7 @@ const importarDatos = async () => {
 }
 
 const eliminarDatos = async () => {
-    try{
+    try {
         // await Promise.all([
         //     Categoria.destroy({where: {}, truncate: true}),
         //     Precio.destroy({where: {}, truncate: true})])
