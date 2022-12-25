@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator'
 import Precio from '../models/Precio.js'
 import Categoria from '../models/Categoria.js'
+import Propiedad from '../models/Propiedad.js'
 
 const admin = (req, res) => {
     res.render('propiedades/admin', {
@@ -63,7 +64,8 @@ const guardar = async (req, res) => {
             precioId,
             categoriaId,
             usuarioId,
-            imagen: ''
+            imagen: '',
+            publicado: false
         })
 
         const { id } = propiedadGuardada
@@ -75,6 +77,25 @@ const guardar = async (req, res) => {
 }
 
 const agregarImagen = async (req, res) => {
+    const { id } = req.params
+
+    // Validar que la propiedad exista.
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad){
+        return res.redirect('/mis-propiedades')
+    }
+
+    // Validar que la propiedad no esté publicada.
+    if(propiedad.publicado){
+        return res.redirect('/mis-propiedades')
+    }    
+
+    // Validar que la propiedad pertenece a quien visita esta página.
+    if(req.usuario.id.toString() !== propiedad.usuarioId.toString()){
+        return res.redirect('/mis-propiedades')
+    }
+
     res.render('propiedades/agregar-imagen', {
         pagina: 'Agregar Imagen'
     })
