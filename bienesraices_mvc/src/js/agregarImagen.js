@@ -8,11 +8,12 @@ Dropzone.options.imagen = {
     maxFilesize: 5,
     maxFiles: 1,
     parallelUploads: 1,
-    autoProcessQueue: true,
+    autoProcessQueue: false,
     addRemoveLinks: true,
     dictRemoveFile: "Borrar archivo",
     dictMaxFilesExceeded: "El límite es un archivo",
     headers: {
         'CSRF-Token': token
-    }
+    },
+    paramName: 'imagen'
 }
