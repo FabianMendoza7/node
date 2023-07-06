@@ -1,6 +1,6 @@
 import express from "express"
 import { body } from 'express-validator'
-import {admin, crear, guardar, agregarImagen, almacenarImagen} from '../controllers/propiedadController.js'
+import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar} from '../controllers/propiedadController.js'
 import protegerRuta from "../middleware/protegerRuta.js"
 import upload from "../middleware/subirImagen.js"
 
@@ -34,5 +34,29 @@ router.post('/propiedades/agregar-imagen/:id',
     almacenarImagen
 )
 
+router.get('/propiedades/editar/:id',
+    protegerRuta,
+    editar
+)
+
+router.post('/propiedades/editar/:id', 
+    protegerRuta,
+    body('titulo').notEmpty().withMessage('El título del anuncio es obligatorio'),
+    body('descripcion')
+        .notEmpty().withMessage('La descripción del anuncio es obligatoria')
+        .isLength({ max: 200 }).withMessage('La descripción es muy larga'),
+    body('categoria').isNumeric().withMessage('Selecciona una categoría'),
+    body('precio').isNumeric().withMessage('Selecciona un rango de precios'),
+    body('habitaciones').isNumeric().withMessage('Selecciona la cantidad de habitaciones'),
+    body('estacionamiento').isNumeric().withMessage('Selecciona un rango de estacionamientos'),
+    body('wc').isNumeric().withMessage('Selecciona la cantidad de baños'),
+    body('lat').isNumeric().withMessage('Ubica la propiedad en el mapa'),
+    guardarCambios
+)
+
+router.post('/propiedades/eliminar/:id',
+    protegerRuta,
+    eliminar
+)
 
 export default router
