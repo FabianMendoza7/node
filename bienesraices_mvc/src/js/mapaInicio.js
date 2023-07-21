@@ -5,9 +5,28 @@
 
     let markers = new L.FeatureGroup().addTo(mapa)
 
+    // Filtros.
+    const filtros = {
+        categoria: '',
+        precio: ''
+    }
+
+    const categoriasSelect = document.querySelector('#categorias')
+    const preciosSelect = document.querySelector('#precios')    
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(mapa);    
+    }).addTo(mapa);   
+    
+    // Filtrado de categorías y precios.
+    categoriasSelect.addEventListener('change', e => {
+        // para obtener número se le antepone el + a e.target.value
+        filtros.categoria = +e.target.value
+    })
+
+    preciosSelect.addEventListener('change', e => {
+        filtros.precio = +e.target.value
+    })    
 
     const obtenerPropiedades = async () => {
         try{
