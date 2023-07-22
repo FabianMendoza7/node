@@ -4,6 +4,7 @@
     const mapa = L.map('mapa-inicio').setView([lat, lng ], 16);
 
     let markers = new L.FeatureGroup().addTo(mapa)
+    let propiedadesFilter = []
 
     // Filtros.
     const filtros = {
@@ -22,26 +23,27 @@
     categoriasSelect.addEventListener('change', e => {
         // para obtener número se le antepone el + a e.target.value
         filtros.categoria = +e.target.value
+        filtrarPropiedades()
     })
 
     preciosSelect.addEventListener('change', e => {
         filtros.precio = +e.target.value
+        filtrarPropiedades()
     })    
 
     const obtenerPropiedades = async () => {
         try{
             const url = '/api/propiedades'
             const respuesta = await fetch(url)
-            const {propiedades} = await respuesta.json()
+            const {data} = await respuesta.json()
+            propiedadesFilter = data;
 
-            mostrarPropiedades(propiedades)
+            mostrarPropiedades(propiedadesFilter)
 
         }catch(error){
             console.log(error)
         }
     }
-
-    obtenerPropiedades()
 
     const mostrarPropiedades = propiedades => {
         propiedades.forEach(propiedad => {
@@ -65,5 +67,15 @@
             markers.addLayer(marker)
         })
     }
+
+    const filtrarPropiedades = () => {
+        const resultado = propiedadesFilter.filter(filtrarCategoria).filter(filtrarPrecio)
+    }
+
+    const filtrarCategoria = propiedad => filtros.categoria ? propiedad.categoriaId === filtros.categoria : propiedad
+
+    const filtrarPrecio = propiedad => filtros.precio ? propiedad.precioId == filtros.precio : propiedad
+
+    obtenerPropiedades()
 
 })()
