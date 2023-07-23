@@ -35,8 +35,8 @@
         try{
             const url = '/api/propiedades'
             const respuesta = await fetch(url)
-            const {data} = await respuesta.json()
-            propiedadesFilter = data;
+            const {propiedades} = await respuesta.json()
+            propiedadesFilter = propiedades;
 
             mostrarPropiedades(propiedadesFilter)
 
@@ -46,6 +46,9 @@
     }
 
     const mostrarPropiedades = propiedades => {
+        // Limpiar los markers previos.
+        markers.clearLayers()
+
         propiedades.forEach(propiedad => {
             // Agregar los pines
             const marker = new L.marker([propiedad?.lat, propiedad?.lng], {
@@ -70,6 +73,7 @@
 
     const filtrarPropiedades = () => {
         const resultado = propiedadesFilter.filter(filtrarCategoria).filter(filtrarPrecio)
+        mostrarPropiedades(resultado)
     }
 
     const filtrarCategoria = propiedad => filtros.categoria ? propiedad.categoriaId === filtros.categoria : propiedad
