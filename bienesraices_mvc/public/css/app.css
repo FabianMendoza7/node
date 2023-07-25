@@ -518,14 +518,14 @@ video {
 .mt-5 {
   margin-top: 1.25rem;
 }
+.mt-8 {
+  margin-top: 2rem;
+}
 .mt-10 {
   margin-top: 2.5rem;
 }
 .mb-1 {
   margin-bottom: 0.25rem;
-}
-.mt-8 {
-  margin-top: 2rem;
 }
 .mb-2 {
   margin-bottom: 0.5rem;
@@ -554,9 +554,6 @@ video {
 .h-\[600px\] {
   height: 600px;
 }
-.h-72 {
-  height: 18rem;
-}
 .h-6 {
   height: 1.5rem;
 }
@@ -565,6 +562,9 @@ video {
 }
 .h-96 {
   height: 24rem;
+}
+.h-72 {
+  height: 18rem;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -616,11 +616,6 @@ video {
 }
 .gap-5 {
   gap: 1.25rem;
-}
-.space-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 .space-y-5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -740,14 +735,14 @@ video {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.p-5 {
-  padding: 1.25rem;
-}
 .p-2 {
   padding: 0.5rem;
 }
 .p-6 {
   padding: 1.5rem;
+}
+.p-5 {
+  padding: 1.25rem;
 }
 .p-4 {
   padding: 1rem;
@@ -1007,10 +1002,6 @@ video {
 
   .md\:w-2\/3 {
     width: 66.666667%;
-  }
-
-  .md\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:grid-cols-2 {
