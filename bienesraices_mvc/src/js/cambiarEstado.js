@@ -1,5 +1,6 @@
 (function() {
     const cambiarEstadoBotones = document.querySelectorAll('.cambiar-estado')
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
     cambiarEstadoBotones.forEach(boton => {
         boton.addEventListener('click', cambiarEstadoPropiedad)
@@ -12,10 +13,16 @@
             const url = `/propiedades/${id}`
 
             const respuesta = await fetch(url, {
-                method: 'PUT'
+                method: 'PUT',
+                headers: {
+                    'CSRF-Token': token
+                }
             })
-        }catch(error){
+
+            const resultado = await respuesta.json()
             
+        }catch(error){
+            console.log(error)
         }
 
     }
