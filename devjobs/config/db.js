@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-require("dotenv").config({path: 'variables.env'});
+const mongoose = require('mongoose');
+require('dotenv').config({path: 'variables.env'});
 
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE, {useNewUrlParser:true});
 
-mongoose.connection.on("error", (error) => {
+mongoose.connection.on('error', (error) => {
     console.log(error);
-});
-
-// Importar los modelos.
-require('../models/vacantes');
+})
+// importar los modelos
+require('../models/Usuarios');
+require('../models/Vacantes');
