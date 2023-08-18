@@ -1,0 +1,17 @@
+{
+  "name": "resapisnode",
+  "version": "1.0.0",
+  "description": "Aprendiendo a crear REST APIs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "author": "Fabián Mendoza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
