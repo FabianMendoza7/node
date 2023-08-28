@@ -47,3 +47,33 @@ exports.mostrarPedido = async(req, res,next) => {
         next();
     }
 }
+
+// Actualizar pedidos.
+exports.actualizarPedido = async(req, res, next) => {
+    try{
+        let pedido = await Pedidos.findOneAndUpdate({_id: req.params.idPedido}, req.body, {
+            new: true
+        })
+        .populate('cliente')
+        .populate({
+            path: 'pedido.producto',
+            model: 'Productos'
+        });
+
+        res.json(pedido);
+    } catch(error) {
+        console.log(error);
+        next();
+    }
+}
+
+// Eliminar pedidos.
+exports.eliminarPedido = async(req, res, next) => {
+    try{
+        await Pedidos.finOneAndDelete({_id: req.params.idPedido});
+        res.json({mensaje: "El pedido se ha eliminado"});
+    } catch(error) {
+        console.log(error);
+        next();
+    }
+}
