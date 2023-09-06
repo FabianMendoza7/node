@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Importar clientes axios.
 import clienteAxios from '../../config/axios';
+import Cliente from './Cliente';
 
 const Clientes = () => {
     // Trabajar con el state.
@@ -24,9 +25,12 @@ const Clientes = () => {
         <>
             <h2>Clientes</h2>
             <ul className="listado-clientes">
-                {clientes.map(cliente => {
-                    console.log(cliente);
-                })}
+                {clientes.map(cliente => (
+                    <Cliente
+                        key={cliente._id}
+                        cliente={cliente}
+                    />
+                ))}
             </ul>
         </>
      );
