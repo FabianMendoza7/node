@@ -26,7 +26,8 @@ const Clientes = () => {
         <>
             <h2>Clientes</h2>
 
-            <Link to={"/clientes/nuevo"} className="btn btn-verde nvo-cliente"> <i class="fas fa-plus-circle"></i>
+            <Link to={"/clientes/nuevo"} className="btn btn-verde nvo-cliente">
+                <i class="fas fa-plus-circle"></i>
                 Nuevo Cliente
             </Link>
 
