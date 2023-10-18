@@ -1,18 +1,17 @@
-import React, {Fragment, useState, useContext} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import { withRouter } from 'react-router-dom'; 
 import clienteAxios from '../../config/axios';
 
-// import el Context
-import { CRMContext } from '../../context/CRMContext';
 
-function NuevoCliente({history}){
 
-    // utilizar valores del context
-    const [auth, guardarAuth ] = useContext( CRMContext );
+function EditarCliente(props){
 
-    // cliente = state, guardarcliente = funcion para guardar el state
-    const[cliente, guardarCliente] = useState({
+    // obtener el ID
+    const { id } = props.match.params;
+
+    // cliente = state, datosCliente = funcion para guardar el state
+    const[cliente, datosCliente] = useState({
         nombre: '',
         apellido: '',
         empresa : '',
@@ -20,23 +19,35 @@ function NuevoCliente({history}){
         telefono :''
     });
 
+    // Query a la API
+    const consultarAPI = async () => {
+        const clienteConsulta = await clienteAxios.get(`/clientes/${id}`);
+
+       // colocar en el state
+       datosCliente(clienteConsulta.data);
+    }
+
+    // useEffect, cuando el componente carga
+    useEffect( () => {
+        consultarAPI();
+    }, []);
+
     // leer los datos del formulario
     const actualizarState = e => {
         // Almacenar lo que el usuario escribe en el state
-        guardarCliente({
+        datosCliente({
             // obtener una copia del state actual
             ...cliente, 
             [e.target.name] : e.target.value
         })
-
     }
 
-    // Añade en la REST API un cliente nuevo
-    const agregarCliente = e => {
+    // Envia una petición por axios para actualizar el cliente
+    const actualizarCliente = e => {
         e.preventDefault();
 
-        // enviar petición
-        clienteAxios.post('/clientes', cliente)
+        // enviar petición por axios
+        clienteAxios.put(`/clientes/${cliente._id}`, cliente) 
             .then(res => {
                 // validar si hay errores de mongo 
                 if(res.data.code === 11000) {
@@ -47,14 +58,15 @@ function NuevoCliente({history}){
                     })
                 } else {
                     Swal.fire(
-                        'Se agregó el Cliente',
-                        res.data.mensaje,
+                        'Correcto',
+                        'Se actualizó Correctamente',
                         'success'
                     )
                 }
-                // Redireccionar
-                history.push('/');
-            });
+
+                // redireccionar
+                props.history.push('/');
+            })
     }
 
     // Validar el formulario
@@ -69,19 +81,12 @@ function NuevoCliente({history}){
         return valido;
     }
 
-    // verificar si el usuario esta autenticado o no
-    if(!auth.auth && (localStorage.getItem('token') === auth.token ) ) {
-        history.push('/iniciar-sesion');
-    }
-
     return (
-
-
         <Fragment>
-            <h2>Nuevo Cliente</h2>
+            <h2>Editar Cliente</h2>
             
             <form
-                onSubmit={agregarCliente}
+                onSubmit={actualizarCliente}
             >
                 <legend>Llena todos los campos</legend>
                 <div className="campo">
@@ -90,6 +95,7 @@ function NuevoCliente({history}){
                             placeholder="Nombre Cliente" 
                             name="nombre"
                             onChange={actualizarState}
+                            value={cliente.nombre}
                     />
                 </div>
 
@@ -99,6 +105,7 @@ function NuevoCliente({history}){
                           placeholder="Apellido Cliente" 
                           name="apellido" 
                           onChange={actualizarState}
+                          value={cliente.apellido}
                     />
                 </div>
             
@@ -108,6 +115,7 @@ function NuevoCliente({history}){
                           placeholder="Empresa Cliente" 
                           name="empresa" 
                           onChange={actualizarState}
+                          value={cliente.empresa}
                     />
                 </div>
 
@@ -117,6 +125,7 @@ function NuevoCliente({history}){
                             placeholder="Email Cliente" 
                             name="email" 
                             onChange={actualizarState}
+                            value={cliente.email}
                     />
                 </div>
 
@@ -126,6 +135,7 @@ function NuevoCliente({history}){
                         placeholder="Teléfono Cliente" 
                         name="telefono" 
                         onChange={actualizarState}
+                        value={cliente.telefono}
                     />
                 </div>
 
@@ -133,7 +143,7 @@ function NuevoCliente({history}){
                     <input 
                         type="submit" 
                         className="btn btn-azul" 
-                        value="Agregar Cliente" 
+                        value="Guardar Cambios" 
                         disabled={ validarCliente() }
                     />
                 </div>
@@ -143,4 +153,4 @@ function NuevoCliente({history}){
 }
 
 // HOC, es una función que toma un componente y retorna un nuevo componente
-export default  withRouter(NuevoCliente);
+export default  withRouter(EditarCliente);
