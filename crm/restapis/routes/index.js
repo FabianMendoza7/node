@@ -1,65 +1,99 @@
 const express = require('express');
+const router = express.Router();
+
 const clienteController = require('../controllers/clienteController');
 const productosController = require('../controllers/productosController');
 const pedidosController = require('../controllers/pedidosController');
-const router = express.Router();
+const usuariosController = require('../controllers/usuariosController');
+
+// middle para proteger las rutas
+const auth = require('../middleware/auth');
 
 module.exports = function() {
-
-    /** CLIENTES **/
     
-    // Agrega nuevos clientes via POST.
-    router.post('/clientes', clienteController.nuevoCliente);
+    // Agrega nuevos clientes via POST
+    router.post('/clientes',
+        clienteController.nuevoCliente 
+    );
 
-    // Obtener todos los clientes.
-    router.get('/clientes', clienteController.mostrarClientes);
+    // Obtener todos los clientes
+    router.get('/clientes', 
+        clienteController.mostrarClientes
+    );
 
-    // Obtener un cliente en específico.
-    router.get('/clientes/:idCliente', clienteController.mostrarCliente);
+    // Muestra un cliente en especifico (ID)
+    router.get('/clientes/:idCliente', 
+        clienteController.mostrarCliente );
 
-    // Actualizar un cliente.
-    router.put('/clientes/:idCliente', clienteController.actualizarCliente);
+    // Actualizar Cliente
+    router.put('/clientes/:idCliente', 
+        clienteController.actualizarCliente);
 
-    // Eliminar un cliente.
-    router.delete('/clientes/:idCliente', clienteController.eliminarCliente);    
+    // Eliminar Cliente
+    router.delete('/clientes/:idCliente', 
+        clienteController.eliminarCliente);
 
-    /** PRODUCTOS **/
-
-    // Agrega nuevo producto.
+    /** PRODUCTOS */
+    // nuevos productos
     router.post('/productos', 
         productosController.subirArchivo,
-        productosController.nuevoProducto);
+        productosController.nuevoProducto
+    );
 
-    // Mostrar productos.
-    router.get('/productos', productosController.mostrarProductos);
+    // Muestra todos los productos
+    router.get('/productos', 
+        productosController.mostrarProductos);
 
-    // Mostrar producto por id.
-    router.get('/productos/:idProducto', productosController.mostrarProducto);
+    // muestra un producto en especifico por su ID
+    router.get('/productos/:idProducto', 
+        productosController.mostrarProducto);
 
-    // Actualizar un producto.
-    router.put('/productos/:idProducto',
+    // Actualizar Productos
+    router.put('/productos/:idProducto', 
         productosController.subirArchivo,
-        productosController.actualizarProducto);
+        productosController.actualizarProducto
+    );
 
-    // Eliminar un producto.
-    router.delete('/productos/:idProducto', productosController.eliminarProducto);
+    // Eliminar Productos
+    router.delete('/productos/:idProducto', 
+        productosController.eliminarProducto
+    );
 
-    /** PEDIDOS **/
+    // Busqueda de Productos
+    router.post('/productos/busqueda/:query',
+        productosController.buscarProducto);
 
-    // Agregar nuevo pedido.
-    router.post('/pedidos', pedidosController.nuevoPedido);
+    /*** PEDIDOS */
+    // Agrega nuevos pedidos
+    router.post('/pedidos/nuevo/:idUsuario', 
+        pedidosController.nuevoPedido);
 
-    // Mostrar todos los pedidos.
-    router.get('/pedidos', pedidosController.mostrarPedidos);
+    // mostrar todos los pedidos
+    router.get('/pedidos', 
+        pedidosController.mostrarPedidos);
 
-    // Mostrar un pedido por su Id.
-    router.get('/pedidos/:idPedido', pedidosController.mostrarPedido);
+    // Mostrar un pedido por su ID
+    router.get('/pedidos/:idPedido',
+    pedidosController.mostrarPedido);
 
-    // Actualizar pedidos.
-    router.put('/pedidos/:idPedido', pedidosController.actualizarPedido);
+    // Actualizar pedidos
+    router.put('/pedidos/:idPedido', 
+    pedidosController.actualizarPedido);
 
-    // Eliminar un pedido.
-    router.delete('/pedidos/:idPedido', pedidosController.eliminarPedido);
+    // Elimina un pedido
+    router.delete('/pedidos/:idPedido', 
+    pedidosController.eliminarPedido);
+
+
+    // Usuarios
+    router.post('/crear-cuenta', 
+        auth,
+        usuariosController.registrarUsuario
+    );
+
+    router.post('/iniciar-sesion',
+        usuariosController.autenticarUsuario
+    );
 
     return router;
 }

@@ -1,4 +1,6 @@
 const Productos = require('../models/Productos');
+
+
 const multer = require('multer');
 const shortid = require('shortid');
 
@@ -40,7 +42,7 @@ exports.nuevoProducto = async (req, res, next) => {
 
     try {
         if(req.file.filename) {
-            producto.imagen = req.file.filename;
+            producto.imagen = req.file.filename
         }
         await producto.save();
         res.json({mensaje : 'Se agrego un nuevo producto'})
@@ -89,9 +91,9 @@ exports.actualizarProducto = async (req, res, next) => {
             let productoAnterior = await Productos.findById(req.params.idProducto);
             nuevoProducto.imagen = productoAnterior.imagen;
         }
+
         
-        let producto = await Productos.findOneAndUpdate({_id : req.params.idProducto}, 
-            nuevoProducto, {
+        let producto = await Productos.findOneAndUpdate({_id : req.params.idProducto}, nuevoProducto, {
             new : true,
         });
 

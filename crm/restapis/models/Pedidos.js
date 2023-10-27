@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const pedidosSchema = new Schema({
     cliente: {
-        type: Schema.ObjectId,
+        type: Schema.ObjectId, 
         ref: 'Clientes'
-    },
+    }, 
     pedido: [{
         producto: {
             type: Schema.ObjectId,
             ref: 'Productos'
-        },
+        }, 
         cantidad: Number
     }],
     total: {

@@ -4,27 +4,26 @@ const Schema = mongoose.Schema;
 const clientesSchema = new Schema({
     nombre: {
         type: String,
-        trim: true
+        trim : true
     },
-    apellido: {
+    apellido : {
+        type: String,
+        trim : true
+    },
+    empresa : {
         type: String,
         trim: true
     },
-    empresa: {
-        type: String,
-        trim: true
-    },
-    email: {
+    email : {
         type: String,
         unique: true,
-        lowercase: true,
+        lowercase: true, 
         trim: true
     },
-    telefono: {
-        type: String,
+    telefono : {
+        type: String, 
         trim: true
     }
 });
-
 
 module.exports = mongoose.model('Clientes', clientesSchema);
